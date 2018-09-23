@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
+
 
 int main()
 {
@@ -12,10 +15,9 @@ int main()
   while(1){
 
     // get user input for threads
-    fprintf("What file would you like to access:");
+    printf("What file would you like to access:");
 
     fgets(input, 256, stdin);
-
 
   }
   return 0;
