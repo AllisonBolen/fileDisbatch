@@ -49,7 +49,7 @@ void* getFile(void* arg){
     sleep((rand()%7)+3);
   }
   countSrv++;
-  printf("\n\tAccessed: %s", userInput);
+  printf("\tAccessed: %s", userInput);
   return NULL;
 }
 
