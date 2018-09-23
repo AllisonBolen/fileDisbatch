@@ -5,14 +5,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <signal.h>
 
 // Global variables
 int countRec = 0;
 int countSrv = 0;
-
+void sigintHandlerParent (int sigNum);
 void* getFile(void* arg);
 int main()
 {
+  signal(SIGINT, sigintHandlerParent);
 
   char input[256];
 
@@ -49,4 +51,10 @@ void* getFile(void* arg){
   countSrv++;
   printf("\nAccessed: %s", userInput);
   return NULL;
+}
+
+/** Signal overwrite for SIGINT */
+void sigintHandlerChild (int sigNum){
+  printf("Quiting: \n");
+	exit(0);
 }
