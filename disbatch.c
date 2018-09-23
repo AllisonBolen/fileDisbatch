@@ -10,9 +10,10 @@
 void* getFile(void* arg);
 int main()
 {
-  int countRec, countSrv = 1;
+  int countRec, countSrv;
   char input[256];
-
+  countRec = 0;
+  countSrv = 0;
   while(1){
     pthread_t thread;
     int status;
