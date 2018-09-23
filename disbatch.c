@@ -39,7 +39,7 @@ void* getFile(void* arg){
   // sleep function
   srand(rand());
   char *userInput = (char *) arg;
-  printf("\nSearching for: %s", userInput);
+  printf("\n\tSearching for: %s", userInput);
   int random = rand() % 9;
   if(random <= 7){
     // we "read" a file %80 of the time
@@ -49,12 +49,13 @@ void* getFile(void* arg){
     sleep((rand()%7)+3);
   }
   countSrv++;
-  printf("\nAccessed: %s", userInput);
+  printf("\n\tAccessed: %s", userInput);
   return NULL;
 }
 
 /** Signal overwrite for SIGINT */
 void sigintHandlerParent (int sigNum){
-  printf("Quiting: \n");
+  printf("\nQuiting: \n");
+  printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
 	exit(0);
 }
