@@ -14,7 +14,7 @@ void* result;
 pthread_t thread[50];
 int threadCount = 0;
 int status;
-int filled = false;
+int filled = 0;
 // cleans up threads
 void sigintHandlerParent (int sigNum);
 // gets files
@@ -35,7 +35,7 @@ int main()
     // check the thread list for population
     if( threadCount == sizeof(thread) ) {
       threadCount = 0;
-      filled = true;
+      filled = 1;
     }
     // create a thread
     if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input)) != 0) {
