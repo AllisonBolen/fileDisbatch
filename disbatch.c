@@ -11,10 +11,10 @@ int main()
   char input[256];
   while(1){
 
-    // get user input
+    // get user input for threads
     gets("What File would you like to access: %s", input);
 
-
+    
   }
   return 0;
 }
