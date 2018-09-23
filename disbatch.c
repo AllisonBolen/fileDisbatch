@@ -22,7 +22,7 @@ int main()
     pthread_t thread;
     int status;
     // get user input for threads
-    printf("What file would you like to access:");
+    printf("What file would you like to access: ");
     fgets(input, 256, stdin);
     countRec++;
     // create a thread
