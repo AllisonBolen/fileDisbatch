@@ -10,7 +10,7 @@
 void* getFile(void* arg);
 int main()
 {
-  int countRec, countSrv;
+  int countRec, countSrv = 1;
   char input[256];
 
   while(1){
@@ -19,7 +19,7 @@ int main()
     // get user input for threads
     printf("What file would you like to access:");
     fgets(input, 256, stdin);
-
+    countRec++;
     // create a thread
     if ((status = pthread_create (&thread, NULL,  getFile, &input)) != 0) {
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
@@ -35,7 +35,7 @@ void* getFile(void* arg){
   srand(rand());
   char *userInput = (char *) arg;
   printf("Searching for: %s", userInput);
-  int random rand() % 9;
+  int random = rand() % 9;
   if(random <= 7){
     // we "read" a file %80 of the time
     sleep(1);
@@ -43,5 +43,6 @@ void* getFile(void* arg){
     // we block because we are getting the file 20% of the time
     sleep((rand()%7)+3);
   }
+  countSrv++;
   print("Accessed: %s", userInput);
 }
