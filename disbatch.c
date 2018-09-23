@@ -14,6 +14,7 @@ void* result;
 pthread_t thread[50];
 int threadCount = 0;
 int status;
+int filled = false;
 // cleans up threads
 void sigintHandlerParent (int sigNum);
 // gets files
@@ -31,11 +32,12 @@ int main()
     printf("What file would you like to access: ");
     fgets(input, 256, stdin);
     countRec++;
-    // create a thread
-    if( threadCount < sizeof(thread) ) {
+    // check the thread list for population
+    if( threadCount == sizeof(thread) ) {
       threadCount = 0;
+      filled = true;
     }
-
+    // create a thread
     if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input)) != 0) {
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
         exit (1);
@@ -68,11 +70,20 @@ void* getFile(void* arg){
 void sigintHandlerParent (int sigNum){
   printf("\nQuiting: \n");
   printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
-  //for( int i = 0; i < sizeof(thread); i++){
-    if ((status = pthread_join (thread[0], &result)) != 0) {
-          fprintf (stderr, "join error %d: %s\n", status, strerror(status));
-          exit (1);
-      }
-  //}
+  if(filled){ // if the thread list was fully used
+    for( int i = 0; i < sizeof(thread); i++){
+      if ((status = pthread_join (thread[i], &result)) != 0) {
+            fprintf (stderr, "join error %d: %s\n", status, strerror(status));
+            exit (1);
+        }
+    }
+  }else{
+    for( int i = 0; i < threadCount; i++){ // if the thread list was partially used
+      if ((status = pthread_join (thread[i], &result)) != 0) {
+            fprintf (stderr, "join error %d: %s\n", status, strerror(status));
+            exit (1);
+        }
+    }
+  }
 	exit(0);
 }
