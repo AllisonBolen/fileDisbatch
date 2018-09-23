@@ -13,8 +13,13 @@ int countSrv = 0;
 void* result;
 pthread_t thread[50];
 int threadCount = 0;
+int status;
+// cleans up threads
 void sigintHandlerParent (int sigNum);
+// gets files
+
 void* getFile(void* arg);
+// main method
 int main()
 {
   signal(SIGINT, sigintHandlerParent);
@@ -22,8 +27,6 @@ int main()
   char input[256];
 
   while(1){
-
-    int status;
     // get user input for threads
     printf("What file would you like to access: ");
     fgets(input, 256, stdin);
