@@ -11,7 +11,7 @@ void* getFile(void* arg);
 int main()
 {
   int countRec, countSrv;
-  char input[256
+  char input[256];
 
   while(1){
 
