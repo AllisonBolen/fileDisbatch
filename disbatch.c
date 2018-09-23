@@ -45,5 +45,5 @@ void* getFile(void* arg){
     sleep((rand()%7)+3);
   }
   countSrv++;
-  print("Accessed: %s", userInput);
+  printf("Accessed: %s", userInput);
 }
