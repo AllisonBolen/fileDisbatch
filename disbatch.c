@@ -12,7 +12,9 @@ int main()
   while(1){
 
     // get user input for threads
-    fgets("What file would you like to access: %s", input);
+    fprintf("What file would you like to access:");
+
+    fgets(input, 256, stdin);
 
 
   }
