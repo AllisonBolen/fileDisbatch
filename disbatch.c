@@ -14,13 +14,14 @@ int main()
   char input[256];
 
   while(1){
-
+    pthread_t thread;
+    int status;
     // get user input for threads
     printf("What file would you like to access:");
     fgets(input, 256, stdin);
 
     // create a thread
-    if ((status = pthread_create (&thread1, NULL,  getFile, &input)) != 0) {
+    if ((status = pthread_create (&thread, NULL,  getFile, &input)) != 0) {
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
         exit (1);
     }
