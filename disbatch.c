@@ -68,11 +68,11 @@ void* getFile(void* arg){
 void sigintHandlerParent (int sigNum){
   printf("\nQuiting: \n");
   printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
-  for( int i = 0; i < sizeof(thread); i++){
-    if ((status = pthread_join (thread[i], &result)) != 0) {
+  //for( int i = 0; i < sizeof(thread); i++){
+    if ((status = pthread_join (thread[0], &result)) != 0) {
           fprintf (stderr, "join error %d: %s\n", status, strerror(status));
           exit (1);
       }
-  }
+  //}
 	exit(0);
 }
