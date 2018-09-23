@@ -54,7 +54,7 @@ void* getFile(void* arg){
 }
 
 /** Signal overwrite for SIGINT */
-void sigintHandlerChild (int sigNum){
+void sigintHandlerParent (int sigNum){
   printf("Quiting: \n");
 	exit(0);
 }
