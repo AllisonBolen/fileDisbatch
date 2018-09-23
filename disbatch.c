@@ -10,10 +10,11 @@
 void* getFile(void* arg);
 int main()
 {
-  int countRec, countSrv;
+
   char input[256];
-  countRec = 0;
-  countSrv = 0;
+  int countRec = 0;
+  int countSrv = 0;
+
   while(1){
     pthread_t thread;
     int status;
@@ -31,6 +32,7 @@ int main()
   }
   return 0;
 }
+
 void* getFile(void* arg){
   // sleep function
   srand(rand());
