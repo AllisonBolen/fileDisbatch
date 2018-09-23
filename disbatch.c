@@ -37,7 +37,7 @@ void* getFile(void* arg){
   // sleep function
   srand(rand());
   char *userInput = (char *) arg;
-  printf("Searching for: %s", userInput);
+  printf("\nSearching for: %s", userInput);
   int random = rand() % 9;
   if(random <= 7){
     // we "read" a file %80 of the time
@@ -47,6 +47,6 @@ void* getFile(void* arg){
     sleep((rand()%7)+3);
   }
   countSrv++;
-  printf("Accessed: %s", userInput);
+  printf("\nAccessed: %s", userInput);
   return NULL;
 }
