@@ -6,14 +6,15 @@
 #include <string.h>
 #include <stdio.h>
 
+// Global variables
+int countRec = 0;
+int countSrv = 0;
 
 void* getFile(void* arg);
 int main()
 {
 
   char input[256];
-  int countRec = 0;
-  int countSrv = 0;
 
   while(1){
     pthread_t thread;
