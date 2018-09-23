@@ -48,5 +48,5 @@ void* getFile(void* arg){
   }
   countSrv++;
   printf("Accessed: %s", userInput);
-  retun NULL;
+  return NULL;
 }
