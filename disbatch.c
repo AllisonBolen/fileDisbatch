@@ -44,6 +44,10 @@ int main()
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
         exit (1);
     }
+    if ((status = pthread_join (thread[threadCount], &result)) != 0) {
+    //           fprintf (stderr, "join error %d: %s\n", status, strerror(status));
+    //           exit (1);
+    //       }
     threadCount++;
   }
   return 0;
@@ -71,23 +75,24 @@ void* getFile(void* arg){
     join all thread that have been used
  */
 void sigintHandlerParent (int sigNum){
-  printf("\nQuiting: \n");
-  printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
+  printf("\nStarting quit process: \n");
+  printf("Closing the rest of the threads");
   int status;
-  if(filled){ // if the thread list was fully used
-    for( int i = 0; i < sizeof(thread); i++){
-      if ((status = pthread_join (thread[i], &result)) != 0) {
-            fprintf (stderr, "join error %d: %s\n", status, strerror(status));
-            exit (1);
-        }
-    }
-  }else{
-    for( int i = 0; i < threadCount; i++){ // if the thread list was partially used
-      if ((status = pthread_join (thread[i], &result)) != 0) {
-            fprintf (stderr, "join error %d: %s\n", status, strerror(status));
-            exit (1);
-        }
-    }
-  }
+  // if(filled){ // if the thread list was fully used
+  //   for( int i = 0; i < sizeof(thread); i++){
+  //     if ((status = pthread_join (thread[i], &result)) != 0) {
+  //           fprintf (stderr, "join error %d: %s\n", status, strerror(status));
+  //           exit (1);
+  //       }
+  //   }
+  // }else{
+  //   for( int i = 0; i < threadCount; i++){ // if the thread list was partially used
+  //     if ((status = pthread_join (thread[i], &result)) != 0) {
+  //           fprintf (stderr, "join error %d: %s\n", status, strerror(status));
+  //           exit (1);
+  //       }
+  //   }
+  // }
+  printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
 	exit(0);
 }
