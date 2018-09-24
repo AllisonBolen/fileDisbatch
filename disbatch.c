@@ -9,6 +9,7 @@
 
 // Global variables
 int countSrv = 0;
+int countRec = 0;
 void* result;
 pthread_t thread[50];
 int threadCount = 0;
@@ -24,12 +25,10 @@ void* getFile(void* arg);
 int main()
 {
   int status;
-  int countRec = 0;
   srand(rand());
   signal(SIGINT, sigintHandlerParent);
 
   char input[256];
-
   while(1){
     // get user input for threads
     printf("What file would you like to access: ");
@@ -46,7 +45,6 @@ int main()
         exit (1);
     }
     threadCount++;
-
   }
   return 0;
 }
