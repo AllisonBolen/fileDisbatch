@@ -8,7 +8,9 @@
 #include <math.h>
 
 /**
-* This class
+* This class simulates a multithreaded server 
+* accessing files while different processes are
+* happening in the background
 *
 * @author Allison Bolen
 * @author Alec Allain
@@ -18,32 +20,31 @@
 /** Instanciate methods */
 void sigHandler (int signal);
 void* workerThreadOne (void* insert);
-void* workerThreadTwo (void* insert);
-void* workerThreadThree (void* insert);
 
 /** Global variables */
-pthread_t thread1, thread2, thread3;
+pthread_t thread1;
 char input;
 int status;
 //int pid;
-int count;
+int recvCount;
+int sentCount;
+//int random;
+void* retrieve;
 
 int main (int argc, char** argv) {
 
     signal(SIGINT, sigHandler);
 
-    printf("\nPlease enter a string: ");
-    scanf("%s", &input);
+    while(1) {
+        printf("\nPlease enter a file name: ");
+        scanf("%s", &input);
 
-    if ((status = pthread_create (&thread1, NULL, workerThreadOne, &input)) != 0) {
-        fprintf (stderr, "\nThread create error %d: %s\n", status, stderror(status));
-        exit(1);
-    } else if ((status = pthread_create (&thread2, NULL, workerThreadTwo, &input)) != 0) {
-        fprintf (stderr, "\nThread create error %d: %s\n", status, stderror(status));
-        exit(1);
-    } else if ((status = pthread_create (&thread3, NULL, workerThreadThree, &input)) != 0) {
-        fprintf (stderr, "\nThread create error %d: %s\n", status, stderror(status));
-        exit(1);
+        // This creates a thread
+        if ((status = pthread_create (&thread1, NULL, workerThreadOne, &input)) != 0) {
+            fprintf (stderr, "\nThread create error %d: %s\n", status, strerror(status));
+            exit(1);
+        }
+    recvCount++;
     }
 
     pthread_exit(NULL);
@@ -51,33 +52,40 @@ int main (int argc, char** argv) {
 }
 
 /**
-* This method
+* This method handles signals from the user
+*
+* @param signal is the specific signal to trigger the method (^C)
 */
 void sigHandler (int signal) {
-    printf("\nNow exiting program....\n");
 
+    printf("\nNow exiting program....\nThe program recieved %d files\nThe program sent %d files\n", recvCount, sentCount);
+
+    if ((status = pthread_join (thread1, &retrieve)) != 0) {
+        fprintf (stderr, "\nThread create error %d: %s\n", status, strerror(status));
+        exit(1);
+    }
+
+    exit(0);
 }
 
 /**
-* This method
+* This method creates a seperate child thread
+*
+* @param insert is the data
 */
 void* workerThreadOne (void* insert) {
+    //printf("\nThis prints something");
+    char* userInput = (char *) insert;
+    int random = rand() % 9;
 
-    printf("\nThis prints something");
+    if (random <= 7) {
+        sleep(1);
+    } else if (random > 7) {
+        sleep(7);
+    }
 
-    return NULL;
-}
+    printf("\nFile %s has been accessed", userInput);
+    sentCount++;
 
-/**
-*
-*/
-void* workerThreadTwo (void* insert) {
-    return NULL;
-}
-
-/**
-*
-*/
-void* workerThreadThree (void* insert) {
     return NULL;
 }
