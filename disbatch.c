@@ -8,21 +8,24 @@
 #include <signal.h>
 
 // Global variables
-int countRec = 0;
 int countSrv = 0;
 void* result;
 pthread_t thread[50];
 int threadCount = 0;
-int status;
 int filled = 0;
+
 // cleans up threads
 void sigintHandlerParent (int sigNum);
-// gets files
 
+// gets files
 void* getFile(void* arg);
+
 // main method
 int main()
 {
+  int status;
+  int countRec = 0;
+  srand(rand());
   signal(SIGINT, sigintHandlerParent);
 
   char input[256];
@@ -33,7 +36,7 @@ int main()
     fgets(input, 256, stdin);
     countRec++;
     // check the thread list for population
-    if( threadCount == sizeof(thread) ) {
+    if( threadCount == sizeof(thread)-1 ) {
       threadCount = 0;
       filled = 1;
     }
@@ -50,7 +53,7 @@ int main()
 
 void* getFile(void* arg){
   // sleep function
-  srand(rand());
+
   char *userInput = (char *) arg;
   printf("\n\tSearching for: %s", userInput);
   int random = rand() % 9;
@@ -66,10 +69,13 @@ void* getFile(void* arg){
   return NULL;
 }
 
-/** Signal overwrite for SIGINT */
+/** Signal overwrite for SIGINT
+    join all thread that have been used
+ */
 void sigintHandlerParent (int sigNum){
   printf("\nQuiting: \n");
   printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
+  int status;
   if(filled){ // if the thread list was fully used
     for( int i = 0; i < sizeof(thread); i++){
       if ((status = pthread_join (thread[i], &result)) != 0) {
