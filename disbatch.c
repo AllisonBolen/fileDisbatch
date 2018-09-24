@@ -45,9 +45,9 @@ int main()
         exit (1);
     }
     if ((status = pthread_join (thread[threadCount], &result)) != 0) {
-    //           fprintf (stderr, "join error %d: %s\n", status, strerror(status));
-    //           exit (1);
-    //       }
+               fprintf (stderr, "join error %d: %s\n", status, strerror(status));
+               exit (1);
+    }
     threadCount++;
   }
   return 0;
