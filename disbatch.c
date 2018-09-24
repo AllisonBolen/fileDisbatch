@@ -14,6 +14,7 @@ void* result;
 pthread_t thread[50];
 int threadCount = 0;
 int filled = 0;
+int status;
 
 // cleans up threads
 void sigintHandlerParent (int sigNum);
@@ -24,7 +25,6 @@ void* getFile(void* arg);
 // main method
 int main()
 {
-  int status;
   srand(rand());
   signal(SIGINT, sigintHandlerParent);
 
@@ -77,7 +77,6 @@ void* getFile(void* arg){
 void sigintHandlerParent (int sigNum){
   printf("\nStarting quit process: \n");
   printf("Closing the rest of the threads");
-  int status;
   // if(filled){ // if the thread list was fully used
   //   for( int i = 0; i < sizeof(thread); i++){
   //     if ((status = pthread_join (thread[i], &result)) != 0) {
