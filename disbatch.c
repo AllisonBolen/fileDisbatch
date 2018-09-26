@@ -38,7 +38,7 @@ int main()
     fgets(input[threadCount], 256, stdin);
     countRec++;
     // create a thread
-    if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input)) != 0) {
+    if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input[threadCount])) != 0) {
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
         exit (1);
     }
