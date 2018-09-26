@@ -36,10 +36,9 @@ int main()
     // get user input for threads
     printf("What file would you like to access: ");
     fgets(input[threadCount], 256, stdin);
-    while(strcmp(input[threadCount], "")){
-      printf("\n Wont accept blank input!!! try again ");
-      fgets(input[threadCount], 256, stdin);
-    }
+    while(input[threadCount] =='\n' || input[threadCount] == ' '){
+		    fgets(input[threadCount], 256, stdin);
+	  }
     countRec++;
     // create a thread
     if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input[threadCount])) != 0) {
