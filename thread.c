@@ -6,9 +6,10 @@
 #include <string.h>
 #include <sys/time.h>
 #include <math.h>
+#include <signal.h>
 
 /**
-* This class simulates a multithreaded server 
+* This class simulates a multithreaded server
 * accessing files while different processes are
 * happening in the background
 *
@@ -24,30 +25,35 @@ void* workerThreadOne (void* insert);
 /** Global variables */
 pthread_t thread1;
 char input;
-int status;
+//int status;
 //int pid;
 int recvCount;
 int sentCount;
 //int random;
-void* retrieve;
+//void* retrieve;
 
 int main (int argc, char** argv) {
-
+    int status;
+    //recvCount = 0;
+    //sentCount = 0;
+    srand(rand());
     signal(SIGINT, sigHandler);
 
     while(1) {
         printf("\nPlease enter a file name: ");
         scanf("%s", &input);
 
+        //printf("\nYou've entered %s\n", &input);
+
         // This creates a thread
         if ((status = pthread_create (&thread1, NULL, workerThreadOne, &input)) != 0) {
             fprintf (stderr, "\nThread create error %d: %s\n", status, strerror(status));
             exit(1);
         }
-    recvCount++;
+        recvCount++;
     }
 
-    pthread_exit(NULL);
+    //pthread_exit(retrieve);
     return 0;
 }
 
@@ -57,6 +63,9 @@ int main (int argc, char** argv) {
 * @param signal is the specific signal to trigger the method (^C)
 */
 void sigHandler (int signal) {
+
+    int status;
+    void* retrieve;
 
     printf("\nNow exiting program....\nThe program recieved %d files\nThe program sent %d files\n", recvCount, sentCount);
 
@@ -81,7 +90,7 @@ void* workerThreadOne (void* insert) {
     if (random <= 7) {
         sleep(1);
     } else if (random > 7) {
-        sleep(7);
+        sleep((rand()% 7) + 3);
     }
 
     printf("\nFile %s has been accessed", userInput);
