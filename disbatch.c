@@ -6,13 +6,21 @@
 #include <string.h>
 #include <stdio.h>
 #include <signal.h>
-
+/**
+ * This exemplifies how threads work
+ * and how to avoid memory issues between threads.
+ *
+ * @author Allison Bolen
+ * @author Alec Allain
+ * @version 9/27/18
+ */
+ 
 // Global variables
-int countSrv = 0;
-int countRec = 0;
-pthread_t thread[50];
-int threadCount = 0;
-int filled = 0;
+int countSrv = 0; // count served
+int countReq = 0; // count requested
+pthread_t thread[50]; // thread array to join on
+int threadCount = 0; // current thread
+int filled = 0; // boolean have we circled back to the begining of the array
 
 // cleans up threads
 void sigintHandlerParent (int sigNum);
@@ -26,7 +34,7 @@ int main()
   srand(rand());
   signal(SIGINT, sigintHandlerParent);
   int status;
-  char input[5][256];
+  char input[50][256]; // store input to avoid overwriting between threads
   while(1){
     // check the thread list for population
     if( threadCount == sizeof(thread)-1 ) {
@@ -40,7 +48,7 @@ int main()
         printf("\nBlank input, try again");
 		    fgets(input[threadCount], 256, stdin);
 	  }
-    countRec++;
+    countReq++;
     // create a thread
     if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input[threadCount])) != 0) {
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
@@ -51,6 +59,9 @@ int main()
   return 0;
 }
 
+/**
+* Fakes getting a file using threads
+*/
 void* getFile(void* arg){
   char *userInput = (char *) arg;
   printf("\n\tSearching for: %s", userInput);
@@ -68,7 +79,7 @@ void* getFile(void* arg){
 }
 
 /** Signal overwrite for SIGINT
-    join all thread that have been used
+ *  join all threads that have been used and may still be open
  */
 void sigintHandlerParent (int sigNum){
   int status;
@@ -90,6 +101,6 @@ void sigintHandlerParent (int sigNum){
         }
     }
   }
-  printf("\nYou asked for %d files and recieved %d.\n", countRec, countSrv);
+  printf("\nYou asked for %d files and recieved %d.\n", countReq, countSrv);
 	exit(0);
 }
