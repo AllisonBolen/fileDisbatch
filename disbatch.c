@@ -36,6 +36,10 @@ int main()
     // get user input for threads
     printf("What file would you like to access: ");
     fgets(input[threadCount], 256, stdin);
+    while(strcmp(&input[threadCount], "")){
+      printf("\n Wont accept blank input!!! try again ");
+      fgets(input[threadCount], 256, stdin);
+    }
     countRec++;
     // create a thread
     if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input[threadCount])) != 0) {
@@ -86,6 +90,6 @@ void sigintHandlerParent (int sigNum){
         }
     }
   }
-  printf("You asked for %d files and recieved %d.\n", countRec, countSrv);
+  printf("\nYou asked for %d files and recieved %d.\n", countRec, countSrv);
 	exit(0);
 }
