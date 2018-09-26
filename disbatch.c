@@ -10,11 +10,9 @@
 // Global variables
 int countSrv = 0;
 int countRec = 0;
-void* result;
 pthread_t thread[50];
 int threadCount = 0;
 int filled = 0;
-int status;
 
 // cleans up threads
 void sigintHandlerParent (int sigNum);
@@ -27,18 +25,18 @@ int main()
 {
   srand(rand());
   signal(SIGINT, sigintHandlerParent);
-
-  char input[256];
+  int status;
+  char input[50][256];
   while(1){
-    // get user input for threads
-    printf("What file would you like to access: ");
-    fgets(input, 256, stdin);
-    countRec++;
     // check the thread list for population
     if( threadCount == sizeof(thread)-1 ) {
       threadCount = 0;
       filled = 1;
     }
+    // get user input for threads
+    printf("What file would you like to access: ");
+    fgets(input[threadCount], 256, stdin);
+    countRec++;
     // create a thread
     if ((status = pthread_create (&thread[threadCount], NULL,  getFile, &input)) != 0) {
         fprintf (stderr, "thread create error %d: %s\n", status, strerror(status));
@@ -69,6 +67,8 @@ void* getFile(void* arg){
     join all thread that have been used
  */
 void sigintHandlerParent (int sigNum){
+  int status;
+  void* result;
   printf("\nStarting quit process: \n");
   printf("Closing the rest of the threads");
   if(filled){ // if the thread list was fully used
