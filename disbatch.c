@@ -37,6 +37,7 @@ int main()
     printf("What file would you like to access: ");
     fgets(input[threadCount], 256, stdin);
     while(*input[threadCount] =='\n' || *input[threadCount] == ' '){
+        printf("\nBlank input, try again");
 		    fgets(input[threadCount], 256, stdin);
 	  }
     countRec++;
@@ -73,7 +74,7 @@ void sigintHandlerParent (int sigNum){
   int status;
   void* result;
   printf("\nStarting quit process: \n");
-  printf("Closing the rest of the threads");
+  printf("Closing the rest of the threads\n");
   if(filled){ // if the thread list was fully used
     for( int i = 0; i < sizeof(thread); i++){
       if ((status = pthread_join (thread[i], &result)) != 0) {
