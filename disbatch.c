@@ -26,7 +26,7 @@ int main()
   srand(rand());
   signal(SIGINT, sigintHandlerParent);
   int status;
-  char input[50][256];
+  char input[5][256];
   while(1){
     // check the thread list for population
     if( threadCount == sizeof(thread)-1 ) {
