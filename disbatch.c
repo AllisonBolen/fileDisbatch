@@ -36,7 +36,7 @@ int main()
     // get user input for threads
     printf("What file would you like to access: ");
     fgets(input[threadCount], 256, stdin);
-    while(input[threadCount] =='\n' || input[threadCount] == ' '){
+    while(*input[threadCount] =='\n' || *input[threadCount] == ' '){
 		    fgets(input[threadCount], 256, stdin);
 	  }
     countRec++;
